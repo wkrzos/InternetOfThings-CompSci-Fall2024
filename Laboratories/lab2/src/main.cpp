@@ -1,18 +1,76 @@
 #include <Arduino.h>
 
-// put function declarations here:
-int myFunction(int, int);
+#define LED_RED 6
+#define LED_GREEN 5
+#define LED_BLUE 3
 
-void setup() {
-  // put your setup code here, to run once:
-  int result = myFunction(2, 3);
+#define RED_BUTTON 2
+#define GREEN_BUTTON 4
+
+bool ledState = false;
+int currentColor = LED_RED;
+
+void initRGB() 
+{
+  pinMode(LED_BUILTIN, OUTPUT);
+  digitalWrite(LED_BUILTIN, LOW);
+  
+  pinMode(LED_RED, OUTPUT);
+  digitalWrite(LED_RED, LOW);
+  
+  pinMode(LED_GREEN, OUTPUT);
+  digitalWrite(LED_GREEN, LOW);
+  
+  pinMode(LED_BLUE, OUTPUT);
+  digitalWrite(LED_BLUE, LOW);
 }
 
-void loop() {
-  // put your main code here, to run repeatedly:
+void initButtons()
+{
+  pinMode(RED_BUTTON, INPUT_PULLUP);
+  pinMode(GREEN_BUTTON, INPUT_PULLUP);
 }
 
-// put function definitions here:
-int myFunction(int x, int y) {
-  return x + y;
+void toggleLED() {
+  ledState = !ledState;
+  if (ledState) {
+      digitalWrite(currentColor, HIGH);
+  } else {
+      digitalWrite(LED_RED, LOW);
+      digitalWrite(LED_GREEN, LOW);
+      digitalWrite(LED_BLUE, LOW);
+  }
+}
+
+void changeColor() {
+  if (ledState) {
+      digitalWrite(currentColor, LOW);
+      if (currentColor == LED_RED) {
+          currentColor = LED_GREEN;
+      } else if (currentColor == LED_GREEN) {
+          currentColor = LED_BLUE;
+      } else {
+          currentColor = LED_RED;
+      }
+      digitalWrite(currentColor, HIGH);
+  }
+}
+
+void setup()
+{
+  initRGB();
+  initButtons();
+}
+
+void loop()
+{
+    if (digitalRead(RED_BUTTON) == LOW) {
+        delay(200);  // Debouncing
+        toggleLED();
+    }
+    
+    if (digitalRead(GREEN_BUTTON) == LOW) {
+        delay(200);  // Debouncing
+        changeColor();
+    }
 }
