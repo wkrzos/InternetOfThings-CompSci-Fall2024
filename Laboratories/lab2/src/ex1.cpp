@@ -1,5 +1,7 @@
 #include <Arduino.h>
 
+#include <Arduino.h>
+
 #define LED_RED 6
 #define LED_GREEN 5
 #define LED_BLUE 3
@@ -44,15 +46,20 @@ void toggleLED() {
 
 void changeColor() {
   if (ledState) {
-      digitalWrite(currentColor, LOW);
-      if (currentColor == LED_RED) {
-          currentColor = LED_GREEN;
-      } else if (currentColor == LED_GREEN) {
-          currentColor = LED_BLUE;
-      } else {
-          currentColor = LED_RED;
-      }
-      digitalWrite(currentColor, HIGH);
+    digitalWrite(currentColor, LOW);
+  }
+
+  // Change the color
+  if (currentColor == LED_RED) {
+      currentColor = LED_GREEN;
+  } else if (currentColor == LED_GREEN) {
+      currentColor = LED_BLUE;
+  } else {
+      currentColor = LED_RED;
+  }
+
+  if (ledState) {
+    digitalWrite(currentColor, HIGH);
   }
 }
 
@@ -64,12 +71,12 @@ void setup()
 
 void loop()
 {
-    if (digitalRead(RED_BUTTON) == LOW) {
+    if (digitalRead(GREEN_BUTTON) == LOW) {
         delay(200);  // Debouncing
         toggleLED();
     }
     
-    if (digitalRead(GREEN_BUTTON) == LOW) {
+    if (digitalRead(RED_BUTTON) == LOW) {
         delay(200);  // Debouncing
         changeColor();
     }

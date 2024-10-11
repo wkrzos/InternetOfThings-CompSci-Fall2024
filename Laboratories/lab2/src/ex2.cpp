@@ -1,10 +1,11 @@
 #include <Arduino.h>
+
 #define LED_GREEN 5
 #define RED_BUTTON 2
 #define GREEN_BUTTON 4
 
 int brightness = 0;
-int fadeAmount = 5;
+int fadeAmount = 1;
 
 void initRGB() 
 {
@@ -27,7 +28,7 @@ void setup()
 void loop()
 {
     // Increase brightness by holding green button
-    if (digitalRead(GREEN_BUTTON) == LOW) {
+    if (digitalRead(RED_BUTTON) == LOW) {
         brightness += fadeAmount;
         if (brightness > 255) {
             brightness = 255;
@@ -37,7 +38,7 @@ void loop()
     }
 
     // Lower brightness by holding red button
-    if (digitalRead(RED_BUTTON) == LOW) {
+    if (digitalRead(GREEN_BUTTON) == LOW) {
         brightness -= fadeAmount;
         if (brightness < 0) {
             brightness = 0;
